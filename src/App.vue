@@ -1,16 +1,13 @@
 <template>
   <div id="app">
-    <Timer></Timer>
-    <SlackAlert></SlackAlert>
-    <input v-model="message" placeholder="input sentense">
-    <button @click="send">send message</button>
+    <Timer v-model="openSlack" v-on:data="openSlack=$event.openSlack"></Timer>
+    <SlackAlert v-show="openSlack"></SlackAlert>
   </div>
 </template>
 
 <script>
 import Timer from './components/Timer.vue'
 import SlackAlert from './components/SlackAlert.vue'
-import { SlackOAuthClient } from 'messaging-api-slack'
 
 export default {
   components: {
@@ -19,16 +16,10 @@ export default {
   },
   data () {
     return {
-      message: ''
+      openSlack: false
     }
   },
   methods: {
-    send () {
-      let message = ''
-      const client = SlackOAuthClient.connect('')
-      message = this.message
-      client.postMessage('timeapptest', message, { as_user: true })
-    }
   }
 }
 </script>

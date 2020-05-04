@@ -19,10 +19,10 @@ export default {
   data () {
     return {
       min: 0,
-      sec: 10,
+      sec: 3,
       timerOn: false,
       timerObj: null,
-      alert: false
+      openSlack: false
     }
   },
   methods: {
@@ -40,25 +40,26 @@ export default {
       const self = this
       this.timerObj = setInterval(function () { self.count() }, 1000)
       this.timerOn = true
-      this.alert = false
     },
     stop: function () {
       clearInterval(this.timerObj)
       this.timerOn = false
-      this.alert = false
     },
     complete: function () {
       clearInterval(this.timerObj)
-      this.alert = true
+      this.$emit('data', {
+        openSlack: true
+      })
     },
     reset: function () {
       this.min = 0
-      this.sec = 10
-      this.alert = false
+      this.sec = 3
+      this.$emit('data', {
+        openSlack: false
+      })
     }
   },
   computed: {
-    // eslint-disable-next-line vue/return-in-computed-property
     formatTime: function () {
       const timeStrings = [
         this.min.toString(),
