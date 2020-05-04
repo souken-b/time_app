@@ -52,6 +52,10 @@ export default {
       })
     },
     reset: function () {
+      if (this.timerOn) {
+        this.timerOn = false
+        clearInterval(this.timerObj)
+      }
       this.min = 0
       this.sec = 3
       this.$emit('data', {

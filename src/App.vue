@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Timer v-model="openSlack" v-on:data="openSlack=$event.openSlack"></Timer>
-    <SlackAlert v-show="openSlack"></SlackAlert>
+    <Timer v-show="!openSlack" v-on:data="openSlack=$event.openSlack"></Timer>
+    <SlackAlert v-show="openSlack" v-on:data="openSlack=$event.openSlack"></SlackAlert>
   </div>
 </template>
 
