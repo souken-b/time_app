@@ -7,18 +7,18 @@
       <button @click="start" v-if="!timerOn">Start</button>
       <button @click="stop" v-if="timerOn">Stop</button>
       <button @click="reset">Reset</button>
-
-      <div v-show="alert">
-        <button>open slack</button>
-      </div>
+      <template v-show="alert">
+        <SlackAlert></SlackAlert>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'timer',
+  components: {
+  },
   data () {
     return {
       min: 0,
