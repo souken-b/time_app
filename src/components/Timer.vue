@@ -7,9 +7,6 @@
       <button @click="start" v-if="!timerOn">Start</button>
       <button @click="stop" v-if="timerOn">Stop</button>
       <button @click="reset">Reset</button>
-      <template v-show="alert">
-        <SlackAlert></SlackAlert>
-      </template>
     </div>
   </div>
 </template>
