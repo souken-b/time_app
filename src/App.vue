@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Header></Header>
     <Timer v-show="!openSlack" v-on:data="openSlack=$event.openSlack"></Timer>
     <SlackAlert v-show="openSlack" v-on:data="openSlack=$event.openSlack"></SlackAlert>
   </div>
@@ -8,11 +9,13 @@
 <script>
 import Timer from './components/Timer.vue'
 import SlackAlert from './components/SlackAlert.vue'
+import Header from './components/Header.vue'
 
 export default {
   components: {
     Timer,
-    SlackAlert
+    SlackAlert,
+    Header
   },
   data () {
     return {
