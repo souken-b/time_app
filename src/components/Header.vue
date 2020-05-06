@@ -3,12 +3,26 @@
     <div class="header_inner">
         <img class="title_img" src="@/assets/title.png">
       <div class="header_navitem">
-        <img class="setting_btn" src="@/assets/setting_button.png">
+        <button @click="openSetting" style="background-color: transparent; border: none"><img class="setting_btn" src="@/assets/setting_button.png"></button>
       </div>
     </div>
   </div>
 </template>
 <script>
+
+export default {
+  name: 'Setting',
+  data () {
+    return {
+      setting: true
+    }
+  },
+  methods: {
+    openSetting () {
+      this.$emit('setting', { setting: true })
+    }
+  }
+}
 </script>
 <style>
   .title_img {

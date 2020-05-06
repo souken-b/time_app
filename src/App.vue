@@ -1,8 +1,11 @@
 <template>
   <div id="app">
-    <Header></Header>
-    <Timer v-show="!openSlack" v-on:data="openSlack=$event.openSlack"></Timer>
-    <SlackAlert v-show="openSlack" v-on:data="openSlack=$event.openSlack"></SlackAlert>
+    <Header v-on:setting="openSetting=$event.setting"></Header>
+    <div v-show="!openSetting">
+      <Timer v-show="!openSlack" v-on:data="openSlack=$event.openSlack"></Timer>
+      <SlackAlert v-show="openSlack" v-on:data="openSlack=$event.openSlack"></SlackAlert>
+    </div>
+    <Setting v-show="openSetting" v-on:setting="openSetting=$event.closeSetting"></Setting>
   </div>
 </template>
 
@@ -10,16 +13,19 @@
 import Timer from './components/Timer.vue'
 import SlackAlert from './components/SlackAlert.vue'
 import Header from './components/Header.vue'
+import Setting from './components/Setting.vue'
 
 export default {
   components: {
     Timer,
     SlackAlert,
-    Header
+    Header,
+    Setting
   },
   data () {
     return {
-      openSlack: false
+      openSlack: false,
+      openSetting: false
     }
   },
   methods: {
