@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <Header v-on:setting="openSetting=$event.setting"></Header>
+    <Header @setting="openSetting=$event.setting"></Header>
     <div v-show="!openSetting">
-      <Timer v-show="!openSlack" v-on:data="openSlack=$event.openSlack"></Timer>
-      <SlackAlert v-show="openSlack" v-on:data="openSlack=$event.openSlack"></SlackAlert>
+      <Timer v-show="!openSlack" @data="openSlack=$event.openSlack" :targetUser="target_user"></Timer>
+      <SlackAlert v-show="openSlack" @data="openSlack=$event.openSlack" :targetUser="target_user"></SlackAlert>
     </div>
-    <Setting v-show="openSetting" v-on:setting="openSetting=$event.closeSetting"></Setting>
+    <Setting v-show="openSetting" @setting="openSetting=$event.closeSetting" @target_user="setTargetUser"></Setting>
   </div>
 </template>
 
@@ -25,10 +25,14 @@ export default {
   data () {
     return {
       openSlack: false,
-      openSetting: false
+      openSetting: false,
+      target_user: ''
     }
   },
   methods: {
+    setTargetUser (targetUser) {
+      this.target_user = targetUser
+    }
   }
 }
 </script>

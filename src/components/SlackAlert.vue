@@ -38,19 +38,17 @@ export default {
       openSlack: true
     }
   },
-  computed: {
-    updateMessage: function () {
-      let message = ''
-      message += '@test_user\n' + this.message
-      console.log(message)
-      return message
+  props: {
+    targetUser: {
+      type: String,
+      required: true
     }
   },
   methods: {
     send () {
       let message = ''
-      const client = SlackOAuthClient.connect('')
-      message += '<@>\n' + this.message
+      const client = SlackOAuthClient.connect(process.env.VUE_APP_SLACK_CHANNEL_TOKEN)
+      message += '<@' + this.targetUser + '>\n' + this.message
       client.postMessage('timeapptest', message, { as_user: true })
     },
     returnTimer () {

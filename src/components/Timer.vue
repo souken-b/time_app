@@ -20,7 +20,7 @@ export default {
   data () {
     return {
       min: 0,
-      sec: 20,
+      sec: 1,
       timerOn: false,
       timerObj: null,
       openSlack: false,
@@ -28,6 +28,12 @@ export default {
       remaining_2_4: true,
       remaining_3_4: true,
       remaining_4_4: true
+    }
+  },
+  props: {
+    targetUser: {
+      type: String,
+      required: true
     }
   },
   methods: {
@@ -62,6 +68,10 @@ export default {
       this.remaining_4_4 = true
     },
     start: function () {
+      if (this.targetUser === '') {
+        alert('please set target user')
+        return
+      }
       const self = this
       this.timerObj = setInterval(function () {
         self.count()
