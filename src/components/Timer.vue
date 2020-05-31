@@ -49,7 +49,7 @@ export default {
     },
     parameter: function () {
       const min = 0
-      const sec = 1
+      const sec = 20
       if ((this.min * 60 + this.sec) === 0) {
         this.remaining_4_4 = false
       } else if ((this.min * 60 + this.sec) < (min * 60 + sec) * (1 / 4)) {
@@ -96,7 +96,7 @@ export default {
         clearInterval(this.timerObj)
       }
       this.min = 0
-      this.sec = 1
+      this.sec = 20
       self.resetParameter()
       this.$emit('data', {
         openSlack: false
