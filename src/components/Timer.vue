@@ -20,7 +20,7 @@ export default {
   data () {
     return {
       min: 0,
-      sec: 20,
+      sec: 1,
       timerOn: false,
       timerObj: null,
       openSlack: false,
@@ -28,6 +28,12 @@ export default {
       remaining_2_4: true,
       remaining_3_4: true,
       remaining_4_4: true
+    }
+  },
+  props: {
+    targetUser: {
+      type: String,
+      required: true
     }
   },
   methods: {
@@ -43,7 +49,7 @@ export default {
     },
     parameter: function () {
       const min = 0
-      const sec = 20
+      const sec = 1
       if ((this.min * 60 + this.sec) === 0) {
         this.remaining_4_4 = false
       } else if ((this.min * 60 + this.sec) < (min * 60 + sec) * (1 / 4)) {
@@ -62,6 +68,10 @@ export default {
       this.remaining_4_4 = true
     },
     start: function () {
+      if (this.targetUser === '') {
+        alert('please set target user')
+        return
+      }
       const self = this
       this.timerObj = setInterval(function () {
         self.count()
@@ -86,7 +96,7 @@ export default {
         clearInterval(this.timerObj)
       }
       this.min = 0
-      this.sec = 20
+      this.sec = 1
       self.resetParameter()
       this.$emit('data', {
         openSlack: false

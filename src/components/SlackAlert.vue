@@ -38,19 +38,17 @@ export default {
       openSlack: true
     }
   },
-  computed: {
-    updateMessage: function () {
-      let message = ''
-      message += '@test_user\n' + this.message
-      console.log(message)
-      return message
+  props: {
+    targetUser: {
+      type: String,
+      required: true
     }
   },
   methods: {
     send () {
       let message = ''
-      const client = SlackOAuthClient.connect('')
-      message += '<@>\n' + this.message
+      const client = SlackOAuthClient.connect('xoxp-1086641543447-1101373762866-1125421474864-2a3464586c377fd1097ccea3e1d0d804')
+      message += '<@' + this.targetUser + '>\n' + this.message
       client.postMessage('timeapptest', message, { as_user: true })
     },
     returnTimer () {

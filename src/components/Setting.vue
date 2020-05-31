@@ -1,28 +1,16 @@
 <template>
   <div id="setting" class="container">
-    <button @click="changeView">Change View</button>
     <div class="add_user row">
       <div v-show="create">
-        <button @click="showWorkSpace">workspace</button><button @click="showChannel">chennel</button><button @click="showUser">user</button>
-        <div v-if="create_data==1" class="add_data">
-          <div v-for="( v, k ) in workspace_draft" :key="k">
-            <label class="input_label">{{ k }}</label><input v-model="workspace_draft[ k ]">
-          </div>
-          <button @click="addWorkSpace">Add workspace</button>
-          <button @click="closeSetting">return timer</button>
-        </div>
-        <div v-else-if="create_data==2" class="add_data">
-          <div v-for="( v, k ) in channel_draft" :key="k">
-            <label class="input_label">{{ k }}</label><input v-model="channel_draft[ k ]">
-          </div>
-          <button @click="addChannel">Add Channel</button>
-          <button @click="closeSetting">return timer</button>
-        </div>
-        <div v-else class="add_data">
-          <div v-for="( v, k ) in user_draft" :key="k">
-            <label class="input_label">{{ k }}</label><input v-model="user_draft[ k ]">
-          </div>
-          <button @click="addUser">Add User</button>
+        <div class="add_data">
+          <button @click="readUsers">read users</button>
+          <select v-model="selected">
+            <option disabled value="">select target</option>
+            <option v-for="user in userLists" :value="user.id" :key="user.id">
+              {{ user.real_name }}
+            </option>
+          </select>
+          <button @click="setUser">set user</button>
           <button @click="closeSetting">return timer</button>
         </div>
       </div>
@@ -33,63 +21,47 @@
   </div>
 </template>
 <script>
-import firebase from 'firebase'
-import 'firebase/firestore'
+import { SlackOAuthClient } from 'messaging-api-slack'
 
 export default {
   name: 'setting',
   data () {
     return {
       setting: true,
-      user_col: firebase.firestore().collection('users'),
-      chennel_col: firebase.firestore().collection('channels'),
-      workspace_col: firebase.firestore().collection('workspaces'),
-      id: '',
-      user_draft: { name: '', slack_id: '', workspace_id: '' },
-      workspace_draft: { name: '', workspace_token: '' },
-      channel_draft: { name: '', workspace_id: '' },
-      docs: [],
       create: true,
-      create_data: 1
+      create_data: 1,
+      selected: '',
+      userLists: []
     }
   },
   methods: {
+    readUsers () {
+      const client = SlackOAuthClient.connect('xoxp-1086641543447-1101373762866-1125421474864-2a3464586c377fd1097ccea3e1d0d804')
+      client.getAllUserList().then(res => {
+        this.saveUsers(res)
+      })
+    },
+    saveUsers (usersArray) {
+      this.userLists = []
+      usersArray.forEach(element => {
+        this.userLists.push(element)
+      })
+    },
+    setUser () {
+      const targetUser = this.selected
+      this.$emit('target_user', targetUser)
+    },
     closeSetting () {
       this.$emit('setting', { closeSetting: false })
-    },
-    addUser () {
-      this.user_col.add(this.user_draft)
-    },
-    addWorkSpace () {
-      this.channel_col.add(this.channel_draft)
-    },
-    addChannel () {
-      this.workspace_col.add(this.wockspace)
-    },
-    showWorkSpace () {
-      this.create_data = 1
-    },
-    showChannel () {
-      this.create_data = 2
-    },
-    showUser () {
-      this.create_data = 3
-    },
-    changeView () {
-      if (this.create) {
-        this.create = false
-      } else {
-        this.create = true
-      }
     }
   }
 }
 </script>
 <style scoped>
-.add_user {
-  margin-top: 20%;
-}
 .input_label {
   margin-right: 20px;
+}
+.container {
+  margin-top:200px;
 }
 </style>
