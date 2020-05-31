@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     readUsers () {
-      const client = SlackOAuthClient.connect('')
+      const client = SlackOAuthClient.connect(process.env.VUE_APP_SLACK_CHANNEL_TOKEN)
       client.getAllUserList().then(res => {
         this.saveUsers(res)
       })
