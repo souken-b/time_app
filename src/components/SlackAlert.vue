@@ -47,7 +47,7 @@ export default {
   methods: {
     send () {
       let message = ''
-      const client = SlackOAuthClient.connect('xoxp-1086641543447-1101373762866-1125421474864-2a3464586c377fd1097ccea3e1d0d804')
+      const client = SlackOAuthClient.connect('')
       message += '<@' + this.targetUser + '>\n' + this.message
       client.postMessage('timeapptest', message, { as_user: true })
     },
